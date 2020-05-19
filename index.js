@@ -1,4 +1,5 @@
 const express = require('express')
+var bodyParser = require('body-parser')
 const axios = require('axios')
 const app = express()
 
@@ -10,15 +11,20 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.post('/msg', function (req, res, next) {
+app.post('/msg', bodyParser.text(), function (req, res, next) {
 
-  console.log(req);
+  console.log(req.originalUrl);
+  console.log(req.body);
 
   axios
     .post(wechatBotUrl, {
+      msgtype: "text",
+      text: {
+        content: req.body
+      }
     })
     .then(res => {
-      console.log(res);
+      // console.log(res);
     })
     .catch(err => {
       console.log(`status: ${err.response.status}, ${err.response.statusText}. data: ${err.response.data}`);
