@@ -1,0 +1,19 @@
+{
+  "name": "wechatRobotProxy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/silencej/wechatRobotProxy.git",
+  "author": "silencej <owen263@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
