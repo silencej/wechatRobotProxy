@@ -3,8 +3,7 @@ var bodyParser = require('body-parser')
 const axios = require('axios')
 const app = express()
 
-// const wechatBotUrl = process.env.wechatBotUrl;
-const wechatBotUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=831eed09-322d-4a6e-b1c0-6e5213cb22de";
+const wechatBotUrl = process.env.wechatBotUrl;
 
 app.use(function (req, res, next) {
   console.log('========== Time:', Date.now())
@@ -47,6 +46,6 @@ app.use(function (err, req, res, next) {
 })
 
 
-const port = process.env.PORT || 50000;
+const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
 
