@@ -1,0 +1,8 @@
+
+* Usage
+
+#+BEGIN_SRC 
+docker run -dti --name wrp -e wechatBotUrl=https://url -p 50000:80 wechat-robot-proxy
+
+curl -X POST -H "Content-Type: text/plain" --data "this is raw data" 127.0.0.1:50000/msg
+#+END_SRC
