@@ -6,3 +6,16 @@ docker run -dti --name wrp -e wechatBotUrl=https://url -p 50000:80 wechat-robot-
 
 curl -X POST -H "Content-Type: text/plain" --data "this is raw data" 127.0.0.1:50000/msg
 #+END_SRC
+
+Or docker-compose.yaml:
+
+#+BEGIN_SRC 
+version: '2.4'
+services:
+  wrp:
+    image: owen263/wechat-robot-proxy
+    environment:
+      wechatBotUrl: ${wechatBotUrl}
+    ports:
+    - "50000:80"
+#+END_SRC
