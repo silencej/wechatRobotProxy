@@ -23,15 +23,21 @@ app.post('/msg', bodyParser.text(), function (req, res, next) {
       }
     })
     .then(res => {
-      // console.log(res);
+      const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+      console.log(msg);
+      res.status(503).send(`Fail: ${msg}`);
     })
     .catch(err => {
-      console.log(`status: ${err.response.status}, ${err.response.statusText}. data: ${err.response.data}`);
+      const res = err.response;
+      const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+      console.log(msg);
+      res.status(503).send(`Fail: ${msg}`);
     });
-  res.send('Success!')
 }, function (req, res, next) {
-  console.log(`status: ${err.response.status}, ${err.response.statusText}. data: ${err.response.data}`);
-  res.send('Failure!')
+  const res = err.response;
+  const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+  console.log(msg);
+  res.status(503).send(`Fail: ${msg}`);
 })
 
 //---------- Error handling
