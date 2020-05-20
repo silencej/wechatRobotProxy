@@ -3,41 +3,67 @@ var bodyParser = require('body-parser')
 const axios = require('axios')
 const app = express()
 
-const wechatBotUrl = process.env.wechatBotUrl;
+// const wechatBotUrl = process.env.wechatBotUrl;
+// const slackBotUrl = process.env.slackBotUrl;
+
+const wechatBotUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=831eed09-322d-4a6e-b1c0-6e5213cb22de";
+const slackBotUrl = "https://hooks.slack.com/services/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";
 
 app.use(function (req, res, next) {
   console.log('========== Time:', Date.now())
   next()
 })
 
-app.post('/msg', bodyParser.text(), function (req, res, next) {
+function send2wechat(msg) {
+  return axios.post(wechatBotUrl, {
+    msgtype: "text",
+    text: {
+      content: msg
+    }
+  })
+}
+
+function send2slack(msg) {
+  return axios.post(slackBotUrl, {
+    text: msg
+  })
+}
+
+app.post('/msg', bodyParser.text({type:"*/*"}), function (req, res, next) {
 
   console.log(req.originalUrl);
-  console.log(req.body);
+  const d = req.body.split(/\r?\n/);
+  console.log(d);
 
-  axios
-    .post(wechatBotUrl, {
-      msgtype: "text",
-      text: {
-        content: req.body
-      }
-    })
-    .then(res => {
-      const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-      console.log(msg);
-      res.status(503).send(`Fail: ${msg}`);
-    })
-    .catch(err => {
-      const res = err.response;
-      const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-      console.log(msg);
-      res.status(503).send(`Fail: ${msg}`);
+  let callArray = [];
+  d.forEach(r => {
+    callArray.push(send2wechat(r));
+    callArray.push(send2slack(r));
+  });
+
+  axios.all(callArray)
+    .then(axios.spread( (...responses) => {
+      console.log(responses[0].statusText);
+    })).catch(errors => {
+      console.log(JSON.stringify(errors));
     });
-}, function (req, res, next) {
-  const res = err.response;
-  const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-  console.log(msg);
-  res.status(503).send(`Fail: ${msg}`);
+//     .then(res => {
+//       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+//       console.log(msg);
+//       res.status(503).send(`Fail: ${msg}`);
+//     })
+//     .catch(err => {
+//       const res = err.response;
+//       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+//       console.log(msg);
+//       res.status(503).send(`Fail: ${msg}`);
+//     });
+// }, function (req, res, next) {
+//   const res = err.response;
+//   const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+//   console.log(msg);
+//   res.status(503).send(`Fail: ${msg}`);
+
 })
 
 //---------- Error handling
