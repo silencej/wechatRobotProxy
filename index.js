@@ -3,11 +3,8 @@ var bodyParser = require('body-parser')
 const axios = require('axios')
 const app = express()
 
-// const wechatBotUrl = process.env.wechatBotUrl;
-// const slackBotUrl = process.env.slackBotUrl;
-
-const wechatBotUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=831eed09-322d-4a6e-b1c0-6e5213cb22de";
-const slackBotUrl = "https://hooks.slack.com/services/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";
+const wechatBotUrl = process.env.wechatBotUrl;
+const slackBotUrl = process.env.slackBotUrl;
 
 app.use(function (req, res, next) {
   console.log('========== Time:', Date.now())
