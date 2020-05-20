@@ -44,23 +44,23 @@ app.post('/msg', bodyParser.text({type:"*/*"}), function (req, res, next) {
     })).catch(errors => {
       console.log(JSON.stringify(errors));
     });
-//     .then(res => {
-//       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-//       console.log(msg);
-//       res.status(503).send(`Fail: ${msg}`);
-//     })
-//     .catch(err => {
-//       const res = err.response;
-//       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-//       console.log(msg);
-//       res.status(503).send(`Fail: ${msg}`);
-//     });
-// }, function (req, res, next) {
-//   const res = err.response;
-//   const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-//   console.log(msg);
-//   res.status(503).send(`Fail: ${msg}`);
-
+  //     .then(res => {
+  //       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+  //       console.log(msg);
+  //       res.status(503).send(`Fail: ${msg}`);
+  //     })
+  //     .catch(err => {
+  //       const res = err.response;
+  //       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+  //       console.log(msg);
+  //       res.status(503).send(`Fail: ${msg}`);
+  //     });
+  // }, function (req, res, next) {
+  //   const res = err.response;
+  //   const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
+  //   console.log(msg);
+  //   res.status(503).send(`Fail: ${msg}`);
+  res.send(`Received.`);
 })
 
 //---------- Error handling
