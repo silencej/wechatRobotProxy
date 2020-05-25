@@ -26,7 +26,7 @@ function send2slack(msg) {
   })
 }
 
-app.post('/msg', bodyParser.text({type:"*/*"}), function (req, res, next) {
+app.post('/msg', bodyParser.text({type:"*/*", limit:"100mb"}), function (req, res, next) {
 
   console.log(req.originalUrl);
   const d = req.body.split(/\r?\n/);
@@ -41,26 +41,13 @@ app.post('/msg', bodyParser.text({type:"*/*"}), function (req, res, next) {
   axios.all(callArray)
     .then(axios.spread( (...responses) => {
       console.log(responses[0].statusText);
+      res.status(201).send(`Success.`);
     })).catch(errors => {
-      console.log(JSON.stringify(errors));
+      const msg = JSON.stringify(errors);
+      console.log(msg);
+      res.status(503).send(`Failure: ${msg}`);
     });
-  //     .then(res => {
-  //       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-  //       console.log(msg);
-  //       res.status(503).send(`Fail: ${msg}`);
-  //     })
-  //     .catch(err => {
-  //       const res = err.response;
-  //       const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-  //       console.log(msg);
-  //       res.status(503).send(`Fail: ${msg}`);
-  //     });
-  // }, function (req, res, next) {
-  //   const res = err.response;
-  //   const msg = `status: ${res.status}, ${res.statusText}. data: ${res.data}`;
-  //   console.log(msg);
-  //   res.status(503).send(`Fail: ${msg}`);
-  res.send(`Received.`);
+  // res.send(`Received.`);
 })
 
 //---------- Error handling
